@@ -1,5 +1,5 @@
 # v8-Practice
-v8 practice with VS2017 C++ 
+v8 practice with VS2019 C++ 
 
-- javascript <-> c++ interaction test
-
+- javascript <-> c++ communication test
+- v8 binary download from nuget
