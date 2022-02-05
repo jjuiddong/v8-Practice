@@ -214,7 +214,7 @@ void GetVar(const v8::FunctionCallbackInfo<v8::Value>& args)
 
 		const int n = args[0]->Int32Value(args.GetIsolate()->GetCurrentContext()).FromJust();
 		//args[0]->ToInt32(args.GetIsolate()->GetCurrentContext())->Value();
-		args.GetReturnValue().Set(n);		
+		args.GetReturnValue().Set(n);
 		int a = 0;
 	}
 
@@ -356,30 +356,36 @@ int RunMain(v8::Isolate* isolate, v8::Platform* platform, int argc,
 // Executes a string within the current v8 context.
 bool ExecuteString(v8::Isolate* isolate, v8::Local<v8::String> source,
 	v8::Local<v8::Value> name, bool print_result,
-	bool report_exceptions) {
+	bool report_exceptions) 
+{
 	v8::HandleScope handle_scope(isolate);
 	v8::TryCatch try_catch(isolate);
 	v8::ScriptOrigin origin(isolate, name);
 	v8::Local<v8::Context> context(isolate->GetCurrentContext());
 	v8::Local<v8::Script> script;
-	if (!v8::Script::Compile(context, source, &origin).ToLocal(&script)) {
+	if (!v8::Script::Compile(context, source, &origin).ToLocal(&script)) 
+	{
 		// Print errors that happened during compilation.
 		if (report_exceptions)
 			ReportException(isolate, &try_catch);
 		return false;
 	}
-	else {
+	else 
+	{
 		v8::Local<v8::Value> result;
-		if (!script->Run(context).ToLocal(&result)) {
+		if (!script->Run(context).ToLocal(&result)) 
+		{
 			assert(try_catch.HasCaught());
 			// Print errors that happened during execution.
 			if (report_exceptions)
 				ReportException(isolate, &try_catch);
 			return false;
 		}
-		else {
+		else 
+		{
 			assert(!try_catch.HasCaught());
-			if (print_result && !result->IsUndefined()) {
+			if (print_result && !result->IsUndefined()) 
+			{
 				// If all went well and the result wasn't undefined then print
 				// the returned value.
 				v8::String::Utf8Value str(isolate, result);
@@ -392,7 +398,8 @@ bool ExecuteString(v8::Isolate* isolate, v8::Local<v8::String> source,
 }
 
 
-void ReportException(v8::Isolate* isolate, v8::TryCatch* try_catch) {
+void ReportException(v8::Isolate* isolate, v8::TryCatch* try_catch) 
+{
 	v8::HandleScope handle_scope(isolate);
 	v8::String::Utf8Value exception(isolate, try_catch->Exception());
 	const char* exception_string = ToCString(exception);
